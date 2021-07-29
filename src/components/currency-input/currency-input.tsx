@@ -6,15 +6,28 @@ import { Component, Prop, h, Listen } from '@stencil/core';
   shadow: true,
 })
 export class CurrencyInput {
+  static DEFAULT_SEPARATOR = '.';
+  static DEFAULT_CURRENCY = '€';
+
   @Prop({ reflect: true, mutable: true }) value: string;
-  @Prop({ reflect: true, mutable: true }) currencySymbol: string = '€';
-  @Prop({ reflect: true, mutable: true }) separator: string = `,`;
   @Prop({ reflect: true, mutable: true }) valid: boolean = true;
+  @Prop({ reflect: true, mutable: true }) currencySymbol: string = CurrencyInput.DEFAULT_CURRENCY;
+  @Prop({ reflect: true, mutable: true }) separator: string = CurrencyInput.DEFAULT_SEPARATOR;
 
   constructor() {
     if (!this.value || this.value?.trim() === '') {
       const separator = this.separatorOutput();
       this.value = `0${separator}00`;
+    }
+
+    this.valid = this.validateInteger() && this.validateDecimal();
+
+    if (this.currencySymbol.match(/(\$|£|¥|€)/)) {
+      this.currencySymbol = CurrencyInput.DEFAULT_CURRENCY;
+    }
+
+    if (this.separator.match(/(\.|,)/)) {
+      this.separator = CurrencyInput.DEFAULT_SEPARATOR;
     }
   }
 
@@ -45,7 +58,7 @@ export class CurrencyInput {
 
   private separatorOutput(): string {
     if (this.separator.match(/\.|\,/) === null) {
-      return '.';
+      return CurrencyInput.DEFAULT_SEPARATOR;
     }
 
     return this.separator;
