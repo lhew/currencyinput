@@ -13,6 +13,8 @@ export class CurrencyInput {
   @Prop({ reflect: true, mutable: true }) valid: boolean = true;
   @Prop({ reflect: true, mutable: true }) currencySymbol: string = CurrencyInput.DEFAULT_CURRENCY;
   @Prop({ reflect: true, mutable: true }) separator: string = CurrencyInput.DEFAULT_SEPARATOR;
+  @Prop() disabled: boolean;
+  @Prop() readonly: boolean;
 
   constructor() {
     if (!this.value || this.value?.trim() === '') {
@@ -92,17 +94,24 @@ export class CurrencyInput {
   render() {
     return (
       <div class="input-wrapper">
-        <span class="input-wrapper__text">{this.currencySymbol}</span>
+        <span class="input-wrapper__text" part="text">
+          {this.currencySymbol}
+        </span>
         <input
           type="number"
           id="integer"
-          min="0"
           class={`input-wrapper__input ${!this.validateInteger() ? 'error' : ''}`}
+          min="0"
           onKeyUp={this.handleChange.bind(this)}
           onBlur={this.handleChange.bind(this)}
+          disabled={this.disabled}
+          readonly={this.readonly}
           value={this.splittedValue()[0]}
+          part="input"
         />
-        <span class="input-wrapper__text">{this.separatorOutput()}</span>
+        <span class="input-wrapper__text" part="text">
+          {this.separatorOutput()}
+        </span>
         <input
           type="number"
           id="decimal"
@@ -111,6 +120,9 @@ export class CurrencyInput {
           class={`input-wrapper__input ${!this.validateDecimal() ? 'error' : ''}`}
           onKeyUp={this.handleChange.bind(this)}
           onBlur={this.handleChange.bind(this)}
+          disabled={this.disabled}
+          readonly={this.readonly}
+          part="input"
           value={this.splittedValue()[1]}
         />
       </div>

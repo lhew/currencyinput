@@ -8,6 +8,8 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface CurrencyInput {
         "currencySymbol": string;
+        "disabled": boolean;
+        "readonly": boolean;
         "separator": string;
         "valid": boolean;
         "value": string;
@@ -27,6 +29,8 @@ declare global {
 declare namespace LocalJSX {
     interface CurrencyInput {
         "currencySymbol"?: string;
+        "disabled"?: boolean;
+        "readonly"?: boolean;
         "separator"?: string;
         "valid"?: boolean;
         "value"?: string;

@@ -16,3 +16,18 @@ input[type=number] {
 .error {
   border: 1px solid red;
 }
+
+.input-wrapper {
+  display:flex; 
+  align-items: baseline;
+}
+
+.input-wrapper__input:first-of-type {
+  text-align: right;
+  width: 100%;
+}
+
+.input-wrapper__input:last-of-type {
+  text-align: right;
+  width: 2em;
+}
