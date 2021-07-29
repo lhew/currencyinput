@@ -9,6 +9,7 @@ export namespace Components {
     interface CurrencyInput {
         "currencySymbol": string;
         "separator": string;
+        "valid": boolean;
         "value": string;
     }
 }
@@ -27,6 +28,7 @@ declare namespace LocalJSX {
     interface CurrencyInput {
         "currencySymbol"?: string;
         "separator"?: string;
+        "valid"?: boolean;
         "value"?: string;
     }
     interface IntrinsicElements {

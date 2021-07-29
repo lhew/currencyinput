@@ -9,6 +9,7 @@ export class CurrencyInput {
   @Prop({ reflect: true, mutable: true }) value: string;
   @Prop({ reflect: true, mutable: true }) currencySymbol: string = '€';
   @Prop({ reflect: true, mutable: true }) separator: string = `,`;
+  @Prop({ reflect: true, mutable: true }) valid: boolean = true;
 
   constructor() {
     if (!this.value || this.value?.trim() === '') {
@@ -34,6 +35,12 @@ export class CurrencyInput {
     if (target.id === 'decimal') {
       this.value = `${this.splittedValue()[0]}${separator}${value}`;
     }
+    this.valid = this.validateInteger() && this.validateDecimal();
+  }
+
+  private hasNumbersOnly(value: string): boolean {
+    //it should have numbers only
+    return `${value}`.trim().match(/^\d+$/) === null;
   }
 
   private separatorOutput(): string {
@@ -44,13 +51,55 @@ export class CurrencyInput {
     return this.separator;
   }
 
+  private validateInteger() {
+    const value = `${this.splittedValue()[0]}`;
+    if (this.hasNumbersOnly(value)) {
+      return false;
+    }
+    //shouldn't accept leading zeros, unless the actual value is '0'
+    if (value.trim().match(/^0/) && value.trim() !== '0') {
+      return false;
+    }
+    return true;
+  }
+
+  private validateDecimal() {
+    const value = `${this.splittedValue()[1]}`;
+    if (this.hasNumbersOnly(value)) {
+      return false;
+    }
+    //should forceably accept two digits
+    if (value.trim().length !== 2) {
+      return false;
+    }
+
+    return true;
+  }
+
   render() {
     return (
       <div class="input-wrapper">
         <span class="input-wrapper__text">{this.currencySymbol}</span>
-        <input type="number" id="integer" min="0" onKeyUp={this.handleChange.bind(this)} onBlur={this.handleChange.bind(this)} value={this.splittedValue()[0]} />
+        <input
+          type="number"
+          id="integer"
+          min="0"
+          class={`input-wrapper__input ${!this.validateInteger() ? 'error' : ''}`}
+          onKeyUp={this.handleChange.bind(this)}
+          onBlur={this.handleChange.bind(this)}
+          value={this.splittedValue()[0]}
+        />
         <span class="input-wrapper__text">{this.separatorOutput()}</span>
-        <input type="number" id="decimal" min="0" max="99" onKeyUp={this.handleChange.bind(this)} onBlur={this.handleChange.bind(this)} value={this.splittedValue()[1]} />
+        <input
+          type="number"
+          id="decimal"
+          min="0"
+          max="99"
+          class={`input-wrapper__input ${!this.validateDecimal() ? 'error' : ''}`}
+          onKeyUp={this.handleChange.bind(this)}
+          onBlur={this.handleChange.bind(this)}
+          value={this.splittedValue()[1]}
+        />
       </div>
     );
   }
