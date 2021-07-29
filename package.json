@@ -1,6 +1,6 @@
 {
   "name": "currencyinput",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",
@@ -20,7 +20,7 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
-    "release":"standard-version"
+    "release": "standard-version"
   },
   "dependencies": {
     "@stencil/core": "^2.0.1",
