@@ -24,11 +24,11 @@ export class CurrencyInput {
 
     this.valid = this.validateInteger() && this.validateDecimal();
 
-    if (this.currencySymbol.match(/(\$|£|¥|€)/)) {
+    if (this.currencySymbol.match(/(\$|£|¥|€)/) === null) {
       this.currencySymbol = CurrencyInput.DEFAULT_CURRENCY;
     }
 
-    if (this.separator.match(/(\.|,)/)) {
+    if (this.separator.match(/(\.|,)/) === null) {
       this.separator = CurrencyInput.DEFAULT_SEPARATOR;
     }
   }
