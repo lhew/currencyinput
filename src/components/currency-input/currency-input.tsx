@@ -1,4 +1,4 @@
-import { Component, Prop, h, Listen } from '@stencil/core';
+import { Component, Prop, h, Listen, Method } from '@stencil/core';
 
 @Component({
   tag: 'currency-input',
@@ -8,9 +8,11 @@ import { Component, Prop, h, Listen } from '@stencil/core';
 export class CurrencyInput {
   static DEFAULT_SEPARATOR = '.';
   static DEFAULT_CURRENCY = '€';
+  static REGEX_ALLOWED_SEPARATORS = /(\.|,)/;
+  static REGEX_ALLOWED_CURRENCIES = /(\$|£|¥|€)/;
+  static REGEX_NUMBERS_ONLY = /^\d+$/;
 
   @Prop({ reflect: true, mutable: true }) value: string;
-  @Prop({ reflect: true, mutable: true }) valid: boolean = true;
   @Prop({ reflect: true, mutable: true }) currencySymbol: string = CurrencyInput.DEFAULT_CURRENCY;
   @Prop({ reflect: true, mutable: true }) separator: string = CurrencyInput.DEFAULT_SEPARATOR;
   @Prop() disabled: boolean;
@@ -22,13 +24,11 @@ export class CurrencyInput {
       this.value = `0${separator}00`;
     }
 
-    this.valid = this.validateInteger() && this.validateDecimal();
-
-    if (this.currencySymbol.match(/(\$|£|¥|€)/)) {
+    if (this.currencySymbol.match(CurrencyInput.REGEX_ALLOWED_CURRENCIES)) {
       this.currencySymbol = CurrencyInput.DEFAULT_CURRENCY;
     }
 
-    if (this.separator.match(/(\.|,)/)) {
+    if (this.separator.match(CurrencyInput.REGEX_ALLOWED_SEPARATORS)) {
       this.separator = CurrencyInput.DEFAULT_SEPARATOR;
     }
   }
@@ -36,6 +36,10 @@ export class CurrencyInput {
   private splittedValue(): string[] {
     let separator = this.separatorOutput();
     return `${this.value}`.split(separator);
+  }
+  @Method()
+  async isValid() {
+    return this.validateInteger() && this.validateDecimal();
   }
 
   @Listen('blur', { capture: true })
@@ -50,16 +54,14 @@ export class CurrencyInput {
     if (target.id === 'decimal') {
       this.value = `${this.splittedValue()[0]}${separator}${value}`;
     }
-    this.valid = this.validateInteger() && this.validateDecimal();
   }
 
   private hasNumbersOnly(value: string): boolean {
-    //it should have numbers only
-    return `${value}`.trim().match(/^\d+$/) === null;
+    return `${value}`.trim().match(CurrencyInput.REGEX_NUMBERS_ONLY) !== null;
   }
 
   private separatorOutput(): string {
-    if (this.separator.match(/\.|\,/) === null) {
+    if (this.separator.match(CurrencyInput.REGEX_ALLOWED_SEPARATORS) === null) {
       return CurrencyInput.DEFAULT_SEPARATOR;
     }
 
@@ -68,7 +70,7 @@ export class CurrencyInput {
 
   private validateInteger() {
     const value = `${this.splittedValue()[0]}`;
-    if (this.hasNumbersOnly(value)) {
+    if (!this.hasNumbersOnly(value)) {
       return false;
     }
     //shouldn't accept leading zeros, unless the actual value is '0'
@@ -80,7 +82,7 @@ export class CurrencyInput {
 
   private validateDecimal() {
     const value = `${this.splittedValue()[1]}`;
-    if (this.hasNumbersOnly(value)) {
+    if (!this.hasNumbersOnly(value)) {
       return false;
     }
     //should forceably accept two digits

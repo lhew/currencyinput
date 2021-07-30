@@ -9,9 +9,9 @@ export namespace Components {
     interface CurrencyInput {
         "currencySymbol": string;
         "disabled": boolean;
+        "isValid": () => Promise<boolean>;
         "readonly": boolean;
         "separator": string;
-        "valid": boolean;
         "value": string;
     }
 }
@@ -32,7 +32,6 @@ declare namespace LocalJSX {
         "disabled"?: boolean;
         "readonly"?: boolean;
         "separator"?: string;
-        "valid"?: boolean;
         "value"?: string;
     }
     interface IntrinsicElements {

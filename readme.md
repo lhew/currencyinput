@@ -16,11 +16,14 @@ the one found in the `value` string, otherwise, the component will start with
 | ---------------- | ----------------- | ------------------------------------------------------------------------------------------------- | -------- | ----------- |
 | `value`          | `value`           | The amount value, using                                                                           | `string` |    `0.0`    |
 | `separator`      | `separator`       | Either a dot, or a comma. Other than that, falls back to (.)                                      | `string` |     `.`     |
-| `valid`          | `valid`           | Indicates if there the `value` has a valid value or not                                           | `boolean`| `undefined` |
 | `currencySymbol` | `currency-symbol` | Possible currency symbols. Can be $,£,¥ and €. Any different values than those will fallback to € | `string` |     `€`     |
 | `disabled`       | `disabled`        | Disables the inputs                                                                               | `string` |   `false`   |
 | `readonly`       | `readonly`        | Inputs can be copied, focused, but not edited                                                     | `string` |   `false`   |
 
+### Methods
+|     Method    |                  Attribute                   |
+| ------------- | -------------------------------------------- |
+| `isValid()`   | Checks the validity of the component values  |
 
 
 Just `npm install && npm start` to see the project live.

@@ -14,7 +14,7 @@
       <div class="form-wrapper">
       <label class="form-item">
         <span class="form-item__title">Amount</span>
-          <currency-input id="amount" id="amount" separator=","></currency-input>
+          <currency-input id="amount" id="amount" separator="," ></currency-input>
       </label>
       <hr />
         <p><small></small></p>
@@ -23,13 +23,14 @@
     </form>
     <script>
       window.onload = function() {
-        document.querySelector("#form").onsubmit = function(e) {
+        document.querySelector("#form").onsubmit = async function(e) {
           e.preventDefault();
           const message = document.querySelector("small");
           const amount = document.querySelector("#amount");
+          const isValid = await amount.isValid();
           message.innerHTML = '';
 
-          if(!amount.valid){
+          if(!isValid){
             message.innerHTML = 'Amount value is invalid'
           }else if(parseFloat(amount.value.replace(",", ".")) <= 0){
             message.innerHTML = 'Type a value greater than 0';
