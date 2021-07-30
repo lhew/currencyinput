@@ -2,7 +2,7 @@ import { newSpecPage } from '@stencil/core/testing';
 import { CurrencyInput } from './currency-input';
 
 const testFn = (symbol = '€', separator = '.', value = '0.00') => `
-<currency-input currency-symbol="${symbol}" separator="${separator}" valid="" value="${value}">
+<currency-input currency-symbol="${symbol}" separator="${separator}" value="${value}">
        <mock:shadow-root>
          <div class="input-wrapper">
            <span class="input-wrapper__text" part="text">
@@ -38,7 +38,7 @@ describe('currency-input', () => {
 
     await page.waitForChanges();
     expect(root).toEqualHtml(`
-      <currency-input currency-symbol="€" separator="foo" valid="" value="0.00">
+      <currency-input currency-symbol="€" separator="foo" value="0.00">
        <mock:shadow-root>
          <div class="input-wrapper">
            <span class="input-wrapper__text" part="text">
@@ -63,7 +63,7 @@ describe('currency-input', () => {
 
     await page.waitForChanges();
     expect(root).toEqualHtml(`
-      <currency-input currency-symbol="€" separator="." valid="" value=".000">
+      <currency-input currency-symbol="€" separator="." value=".000">
        <mock:shadow-root>
          <div class="input-wrapper">
            <span class="input-wrapper__text" part="text">
@@ -88,7 +88,7 @@ describe('currency-input', () => {
 
     await page.waitForChanges();
     expect(root).toEqualHtml(`
-      <currency-input currency-symbol="€"  separator="." valid="" value="00.aa">
+      <currency-input currency-symbol="€"  separator="." value="00.aa">
        <mock:shadow-root>
          <div class="input-wrapper">
            <span class="input-wrapper__text" part="text">
