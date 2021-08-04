@@ -21,7 +21,7 @@ the one found in the `value` string, otherwise, the component will start with
 | `readonly`       | `readonly`        | Inputs can be copied, focused, but not edited                                                     | `string` |   `false`   |
 
 ### Methods
-|     Method    |                  Attribute                   |
+|     Method    |                  Description                 |
 | ------------- | -------------------------------------------- |
 | `isValid()`   | Checks the validity of the component values  |
 
